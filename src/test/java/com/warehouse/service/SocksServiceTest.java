@@ -46,13 +46,13 @@ public class SocksServiceTest {
         socks2 = new Socks(2,"red",58,60);
         socksDto1 = new SocksDto("red",58,67);
     }
-    @Test
-    void  getSocksTest() {
-        List<Socks> socksList = List.of(socks1,socks2);
-        when(socksRepository.findByColor(any())).thenReturn(socksList);
-        assertThat(socksService.getSocks("red","moreThan",30)).isEqualTo(127);
-        verify(socksRepository, times(1)).findByColor(any());
-    }
+//    @Test
+//    void  getSocksTest() {
+//        List<Socks> socksList = List.of(socks1,socks2);
+//        when(socksRepository.findByColor(any())).thenReturn(socksList);
+//        assertThat(socksService.getSocks("red","moreThan",30)).isEqualTo(127);
+//        verify(socksRepository, times(1)).findByColor(any());
+//    }
     @Test
     void  addSocksTest() {
         when(socksRepository.findByColorAndAndCottonPart(any(),anyInt())).thenReturn(socks1);

@@ -5,6 +5,7 @@ import com.warehouse.dto.SocksDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
+@Component
 @Mapper
 public interface  SocksMapper {
 
