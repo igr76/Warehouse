@@ -5,10 +5,16 @@ import com.warehouse.Mapper.SocksMapper;
 import com.warehouse.Repository.SocksRepository;
 import com.warehouse.Service.SocksService;
 import com.warehouse.dto.SocksDto;
+import com.warehouse.loger.FormLogInfo;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+@NoArgsConstructor
+@AllArgsConstructor
 @Slf4j
 @Service
 public class SocksServiceImpl implements SocksService {
@@ -16,8 +22,10 @@ public class SocksServiceImpl implements SocksService {
     SocksRepository socksRepository;
     SocksMapper socksMapper;
 
+
     @Override
     public Integer getSocks(String color, String operation, int cottonPart) {
+        log.info(FormLogInfo.getInfo());
         int howMany = 0;
         List<Socks> socks1 = socksRepository.findByColor(color);
         switch (operation) {
@@ -44,12 +52,25 @@ public class SocksServiceImpl implements SocksService {
 
     @Override
     public SocksDto addSocks(SocksDto socksDto) {
+        log.info(FormLogInfo.getInfo());
         Socks socks1=socksMapper.toEntity(socksDto);
         Socks socks2 = socksRepository.findByColorAndAndCottonPart(socks1.getColor(), socks1.getCottonPart());
         if (socks2 != null) {
             socks1.setQuantity(socks1.getQuantity() + socks2.getQuantity());
             return socksMapper.toDto(socksRepository.save(socks1));
         }
-        return socksMapper.toDto(socksRepository.save(socks2));
+        return socksMapper.toDto(socksRepository.save(socks1));
+    }
+    @Override
+    public SocksDto updateSocks(SocksDto socksDto)  {
+        log.info(FormLogInfo.getInfo());
+        Socks socks1=socksMapper.toEntity(socksDto);
+        Socks socks2 = socksRepository.findByColorAndAndCottonPart(socks1.getColor(), socks1.getCottonPart());
+        if (socks2 == null) { return null;
+        }
+        if ((socks2.getQuantity() - socks1.getQuantity())>=0 ) {
+            socks1.setQuantity(socks2.getQuantity() - socks1.getQuantity());
+        }else throw new  RuntimeException();
+        return socksMapper.toDto(socksRepository.save(socks1));
     }
 }

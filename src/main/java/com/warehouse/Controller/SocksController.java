@@ -28,7 +28,11 @@ import java.io.IOException;
 @Slf4j
 public class SocksController {
     SocksService socksService;
-    SocksDto socksDto;
+
+    public SocksController(SocksService socksService) {
+        this.socksService = socksService;
+    }
+
     @Operation(summary = "Получить количество заявленных носков")
     @ApiResponses({
             @ApiResponse(
@@ -79,6 +83,32 @@ public class SocksController {
     })
     @PostMapping("/income")
     public ResponseEntity<SocksDto> addSocks(
+            @RequestBody @Valid SocksDto socksDto) throws IOException {
+        return ResponseEntity.ok(socksService.addSocks(socksDto));
+    }
+    @Operation(summary = "Изъять носки со склада")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "OK",
+                    content = {
+                            @Content(
+                                    array = @ArraySchema(schema = @Schema(implementation = SocksDto.class)))
+                    }
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Not Found",
+                    content = {@Content(array = @ArraySchema(schema = @Schema()))}
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Error",
+                    content = {@Content(array = @ArraySchema(schema = @Schema()))}
+            )
+    })
+    @PostMapping("/outcome")
+    public ResponseEntity<SocksDto> updateSocks(
             @RequestBody @Valid SocksDto socksDto) throws IOException {
         return ResponseEntity.ok(socksService.addSocks(socksDto));
     }

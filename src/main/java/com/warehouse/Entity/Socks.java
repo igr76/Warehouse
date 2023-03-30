@@ -1,10 +1,12 @@
 package com.warehouse.Entity;
 
 import lombok.*;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 
 /**  Сущность носков   */
+@Component
 @Getter
 @Setter
 @ToString
