@@ -44,7 +44,7 @@ public class SocksController {
                     }
             )
     })
-    @GetMapping("{color}/{operation}/{cottonPart}")
+    @GetMapping("/{color}/{operation}/{cottonPart}")
     public ResponseEntity<?> getSocks(@PathVariable(name = "color")
                                                 @NotBlank(message = "Цвет носков не должен быть пустым")
                                                 @Parameter(description = "Цвет носков",
@@ -60,10 +60,26 @@ public class SocksController {
                                                         example = "60") int cottonPart) {
         return ResponseEntity.ok().body(socksService.getSocks(color,operation,cottonPart));
     }
+    @Operation(summary = "Получить количество заявленных носков")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "OK",
+                    content = {
+                            @Content(
+                                    array = @ArraySchema(schema = @Schema(implementation = String.class)))
+                    }
+            )
+    })
+    @GetMapping("/{color}")
+    public ResponseEntity getSock(@PathVariable(name = "color") String color
+                                      ) {
+        return ResponseEntity.ok("hello"+ color);
+    }
     @Operation(summary = "Добавить носки на склад")
     @ApiResponses({
             @ApiResponse(
-                    responseCode = "201",
+                    responseCode = "200",
                     description = "OK",
                     content = {
                             @Content(
@@ -89,7 +105,7 @@ public class SocksController {
     @Operation(summary = "Изъять носки со склада")
     @ApiResponses({
             @ApiResponse(
-                    responseCode = "201",
+                    responseCode = "200",
                     description = "OK",
                     content = {
                             @Content(
@@ -110,6 +126,6 @@ public class SocksController {
     @PostMapping("/outcome")
     public ResponseEntity<SocksDto> updateSocks(
             @RequestBody @Valid SocksDto socksDto) throws IOException {
-        return ResponseEntity.ok(socksService.addSocks(socksDto));
+        return ResponseEntity.ok(socksService.updateSocks(socksDto));
     }
 }
