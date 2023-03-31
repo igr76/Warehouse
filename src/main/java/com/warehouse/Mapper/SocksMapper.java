@@ -4,9 +4,9 @@ import com.warehouse.Entity.Socks;
 import com.warehouse.dto.SocksDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.springframework.stereotype.Component;
-@Component
-@Mapper
+
+
+@Mapper(componentModel = "spring")
 public interface  SocksMapper {
 
     @Mapping(target = "id", ignore = true)
