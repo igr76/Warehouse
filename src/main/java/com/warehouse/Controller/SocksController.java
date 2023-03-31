@@ -98,9 +98,9 @@ public class SocksController {
             )
     })
     @PostMapping("/income")
-    public ResponseEntity<SocksDto> addSocks(
+    public void addSocks(
             @RequestBody @Valid SocksDto socksDto) throws IOException {
-        return ResponseEntity.ok(socksService.addSocks(socksDto));
+       socksService.addSocks(socksDto);
     }
     @Operation(summary = "Изъять носки со склада")
     @ApiResponses({

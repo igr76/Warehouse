@@ -5,7 +5,6 @@ import com.warehouse.dto.SocksDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-
 @Mapper(componentModel = "spring")
 public interface  SocksMapper {
 

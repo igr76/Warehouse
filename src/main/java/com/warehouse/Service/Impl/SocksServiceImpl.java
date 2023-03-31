@@ -16,16 +16,18 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Slf4j
 @Service
 public class SocksServiceImpl implements SocksService {
     Socks socks;
-    @Autowired
    private SocksRepository socksRepository;
-
     private SocksMapper socksMapper;
+    public SocksServiceImpl( SocksRepository socksRepository, SocksMapper socksMapper) {
+        this.socksRepository = socksRepository;
+        this.socksMapper = socksMapper;
+    }
+
     @Override
     public Integer getSocks(String color, String operation, int cottonPart) {
         log.info(FormLogInfo.getInfo());
