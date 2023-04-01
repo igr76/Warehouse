@@ -112,6 +112,6 @@ public class SocksController {
     @PostMapping("/outcome")
     public ResponseEntity<SocksDto> updateSocks(
             @RequestBody @Valid SocksDto socksDto) throws IOException {
-        return ResponseEntity.ok(socksService.updateSocks(socksDto));
+        return ResponseEntity.ok().body(socksService.updateSocks(socksDto));
     }
 }
