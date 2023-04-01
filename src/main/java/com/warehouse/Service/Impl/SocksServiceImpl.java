@@ -6,32 +6,27 @@ import com.warehouse.Repository.SocksRepository;
 import com.warehouse.Service.SocksService;
 import com.warehouse.dto.SocksDto;
 import com.warehouse.loger.FormLogInfo;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.mapstruct.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
-
-
+/**
+ * Сервис учёта носков
+ */
 @Slf4j
 @Service
 public class SocksServiceImpl implements SocksService {
-    Socks socks;
    private SocksRepository socksRepository;
     private SocksMapper socksMapper;
     public SocksServiceImpl( SocksRepository socksRepository, SocksMapper socksMapper) {
         this.socksRepository = socksRepository;
         this.socksMapper = socksMapper;
     }
-
+    /**
+     * Возвращает общее количество носков на складе, соответствующих переданным в параметрах критериям запроса.
+     */
     @Override
     public Integer getSocks(String color, String operation, int cottonPart) {
         log.info(FormLogInfo.getInfo());
-        int howMany = 0;
       List<Socks> socks1 = socksRepository.findAll();
         switch (operation) {
             case "moreThan":
@@ -51,23 +46,24 @@ public class SocksServiceImpl implements SocksService {
                         .sum();
             default:
                 throw new IllegalStateException("Unexpected value: " + operation);
-
-
         }
-
     }
-
+    /**
+     * Регистрирует приход носков на склад
+     */
     @Override
-    public SocksDto addSocks(SocksDto socksDto) {
+    public void addSocks(SocksDto socksDto) {
         log.info(FormLogInfo.getInfo());
         Socks socks1=socksMapper.toEntity(socksDto);
         Socks socks2 = socksRepository.findByColorAndAndCottonPart(socks1.getColor(), socks1.getCottonPart());
         if (socks2 != null) {
             socks1.setQuantity(socks1.getQuantity() + socks2.getQuantity());
-            return socksMapper.toDto(socksRepository.save(socks1));
-        }
-        return socksMapper.toDto(socksRepository.save(socks1));
+             socksMapper.toDto(socksRepository.save(socks1));
+        }else         socksMapper.toDto(socksRepository.save(socks1));
     }
+    /**
+     * Регистрирует отпуск носков со склада.
+     */
     @Override
     public SocksDto updateSocks(SocksDto socksDto)  {
         log.info(FormLogInfo.getInfo());
@@ -77,7 +73,7 @@ public class SocksServiceImpl implements SocksService {
         }
         if ((socks2.getQuantity() - socks1.getQuantity())>=0 ) {
             socks1.setQuantity(socks2.getQuantity() - socks1.getQuantity());
-        }else throw new  RuntimeException();
+        }else throw new  RuntimeException("На складе нет такого количества носков");
         return socksMapper.toDto(socksRepository.save(socks1));
     }
 }
