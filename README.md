@@ -9,7 +9,7 @@
 - 
 - ## Схема данных:
 ![Снимок экрана 2023-04-01 220848.png](https://github.com/igr76/Warehouse/blob/1/%D1%ED%E8%EC%EE%EA%20%FD%EA%F0%E0%ED%E0%202023-04-01%20220848.png)
-https://github.com/igr76/Warehouse/blob/1/%D1%ED%E8%EC%EE%EA%20%FD%EA%F0%E0%ED%E0%202023-04-01%20220848.png
+
 ## Используемые технологии
 
 - Java 11
