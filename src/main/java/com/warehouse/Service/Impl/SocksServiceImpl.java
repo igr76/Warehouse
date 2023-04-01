@@ -27,20 +27,17 @@ public class SocksServiceImpl implements SocksService {
     @Override
     public Integer getSocks(String color, String operation, int cottonPart) {
         log.info(FormLogInfo.getInfo());
-      List<Socks> socks1 = socksRepository.findAll();
         switch (operation) {
             case "moreThan":
-                return  socks1.stream()
-                        .filter(e -> e.getCottonPart() > cottonPart)
+                return  socksRepository.findCottonPartMoreThan(cottonPart,color).stream()
                         .mapToInt(e -> e.getQuantity())
                         .sum();
             case "lessThan":
-                return socks1.stream()
-                        .filter(e -> e.getCottonPart() < cottonPart)
+                return socksRepository.findCottonPartLessThan(cottonPart,color).stream()
                         .mapToInt(e -> e.getQuantity())
                         .sum();
             case "equal":
-                return socks1.stream()
+                return socksRepository.findCottonPartEqual(cottonPart,color).stream()
                         .filter(e -> e.getCottonPart() == cottonPart)
                         .mapToInt(e -> e.getQuantity())
                         .sum();

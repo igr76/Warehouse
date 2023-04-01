@@ -2,6 +2,7 @@ package com.warehouse.controller;
 
 import com.warehouse.Controller.SocksController;
 import com.warehouse.Service.SocksService;
+import com.warehouse.dto.SocksDto;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.minidev.json.JSONObject;
@@ -32,6 +33,7 @@ public class SocksControllerTest {
      SocksService socksService;
     @Autowired
     private MockMvc mockMvc;
+    SocksDto socksDto;
     String color = "red";
     int cottonPart;
     Integer quantity = 100;
@@ -42,6 +44,7 @@ public class SocksControllerTest {
     color = "red";
     cottonPart = 90;
     quantity = 45;
+    socksDto = new SocksDto(color,cottonPart,quantity);
     socksJSON = new JSONObject();
     socksJSON.put("color",color);
     socksJSON.put("cottonPart",cottonPart);
@@ -84,13 +87,15 @@ public class SocksControllerTest {
     }
     @Test
     void updateSocksTest() throws Exception {
-        String url = "/api/socks/income";
+        String url = "/api/socks/outcome";
+        when(socksService.updateSocks(socksDto))
+                .thenReturn(socksDto);
         mockMvc.perform(multipart(
                                 url, HttpMethod.POST)
                         .content(socksJSON.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.quantity").value(0));
+                .andExpect(jsonPath("$.quantity").value(45));
     }
 }
