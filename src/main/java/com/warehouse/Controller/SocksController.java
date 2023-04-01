@@ -19,9 +19,12 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.IOException;
-
+/**
+ * Контроллер
+ */
 @RestController
 @RequestMapping("/api/socks")
 @Tag(name = "Носки")
@@ -44,37 +47,20 @@ public class SocksController {
                     }
             )
     })
-    @GetMapping("/{color}/{operation}/{cottonPart}")
-    public ResponseEntity<?> getSocks(@PathVariable(name = "color")
+    @GetMapping()
+    public ResponseEntity<Integer> getSocks(@RequestParam(name = "color")
                                                 @NotBlank(message = "Цвет носков не должен быть пустым")
                                                 @Parameter(description = "Цвет носков",
                                                         example = "red") String color,
-                                            @PathVariable(name = "operation")
+                                            @RequestParam(name = "operation")
                                                 @NotBlank(message = "диапазон поиска не должен быть пустым")
-                                                @Min(value = 1, message = "Идентификатор должен быть больше 0")
-                                                @Parameter(description = "Содержание хлопка <>= одно из трех значений:",
-                                                        example = "moreThan, lessThan, equal") String operation, @PathVariable(name = "cottonPart")
-                                                @NotBlank(message = "% содержания хлопка не должен быть пустым")
+                                                @Parameter(description = "Содержание хлопка <>= одно из трех значений:moreThan, lessThan, equal",
+                                                        example = "moreThan") String operation, @RequestParam(name = "cottonPart")
+                                                @NotNull(message = "% содержания хлопка не должен быть пустым")
                                                 @Size(min = 1,max = 100, message = "Идентификатор должен быть от 0 до 100")
                                                 @Parameter(description = "% содержания хлопка",
                                                         example = "60") int cottonPart) {
-        return ResponseEntity.ok().body(socksService.getSocks(color,operation,cottonPart));
-    }
-    @Operation(summary = "Получить количество заявленных носков")
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "OK",
-                    content = {
-                            @Content(
-                                    array = @ArraySchema(schema = @Schema(implementation = String.class)))
-                    }
-            )
-    })
-    @GetMapping("/{color}")
-    public ResponseEntity getSock(@PathVariable(name = "color") String color
-                                      ) {
-        return ResponseEntity.ok("hello"+ color);
+        return ResponseEntity.ok(socksService.getSocks(color,operation,cottonPart));
     }
     @Operation(summary = "Добавить носки на склад")
     @ApiResponses({
@@ -98,9 +84,9 @@ public class SocksController {
             )
     })
     @PostMapping("/income")
-    public ResponseEntity<SocksDto> addSocks(
+    public void addSocks(
             @RequestBody @Valid SocksDto socksDto) throws IOException {
-        return ResponseEntity.ok(socksService.addSocks(socksDto));
+       socksService.addSocks(socksDto);
     }
     @Operation(summary = "Изъять носки со склада")
     @ApiResponses({

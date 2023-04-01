@@ -19,6 +19,7 @@ import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -59,8 +60,9 @@ public class SocksServiceTest {
         when(socksMapper.toEntity(any())).thenReturn(socks2);
         when(socksMapper.toDto(any())).thenReturn(socksDto1);
         when(socksRepository.save(any())).thenReturn(socks1);
-        assertThat(socksService.addSocks(socksDto1)).isEqualTo(socksDto1);
-        verify(socksRepository, times(1)).findByColorAndAndCottonPart(any(),anyInt());
+        socksService.addSocks(socksDto1);
+        assertEquals(socks1.getQuantity(), 67);
+        verify(socksMapper, times(1)).toDto(any());
     }
     @Test
     void  updateSocksTest() {
