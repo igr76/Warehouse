@@ -1,16 +1,22 @@
 version: '3'
-
 services:
-  postgres:
+   postgres:
     image: 'postgres:10'
     container_name: 'java-postgres'
     environment:
       - 'POSTGRES_USER=igr'
-      - 'POSTGRES_HOST_AUTH_METHOD=trust'
+      - 'POSTGRES_PASSWORD=11111111'
       - 'POSTGRES_DB=socks'
 
-  app:
-    build:  ./
-    container_name: 'java-app'
-    ports:
-      - 8081:8081
+
+   app:
+     build: ./
+     container_name: 'sock'
+     ports:
+       - 8081:8081
+
+
+
+
+
+
