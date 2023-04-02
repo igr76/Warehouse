@@ -1,9 +1,3 @@
-FROM eclipse-temurin:17-jdk-jammy
-
-WORKDIR /app
-COPY .mvn/  .mvn
-COPY mvnw pom.xml ./
-RUN ./mvnm  depedensy:resolve
-
-COPY src ./src
-CMD ["./mvnm","spring-boot:run"]
+FROM openjdk:11
+ADD /target/StockOfSocks-0.0.1-SNAPSHOT.jar backend.jar
+ENTRYPOINT "java", "-jar","backend.jar"
