@@ -1,0 +1,23 @@
+version: '3'
+services:
+   postgres:
+    image: 'postgres:10'
+    container_name: 'java-postgres'
+    environment:
+      - 'SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/socks'
+      - 'SPRING_DATASOURCE_PASSWORD=11111111'
+      - 'SPRING_DATASOURCE_USERNAME=igr'
+      - 'POSTGRES_DB=socks'
+
+
+   app:
+     build: ./
+     container_name: 'sock'
+     ports:
+       - '8081:8081'
+
+
+
+
+
+
