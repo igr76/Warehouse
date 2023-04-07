@@ -1,6 +1,15 @@
 package com.warehouse;
 
 
+import org.junit.ClassRule;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.util.TestPropertyValues;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.testcontainers.containers.PostgreSQLContainer;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -9,9 +18,9 @@ public class UserRepositoryTCIntegrationTest extends UserRepositoryCommonIntegra
 
     @ClassRule
     public static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer("postgres:11.1")
-            .withDatabaseName("integration-tests-db")
-            .withUsername("sa")
-            .withPassword("sa");
+            .withDatabaseName("socks")
+            .withUsername("igr")
+            .withPassword("11111111");
 
     static class Initializer
             implements ApplicationContextInitializer<ConfigurableApplicationContext> {
